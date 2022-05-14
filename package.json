@@ -1,0 +1,33 @@
+{
+  "name": "alfred-color-convert",
+  "version": "0.0.1",
+  "description": "An Alfred workflows for color conversion",
+  "repository": "https://github.com/toFrankie/alfred-color-convert.git",
+  "type": "module",
+  "author": "Frankie <1426203851@qq.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "postinstall": "alfy-init",
+    "preuninstall": "alfy-cleanup"
+  },
+  "files": [
+    "index.js",
+    "icon.png",
+    "info.plist"
+  ],
+  "keywords": [
+    "alfred",
+    "workflow",
+    "alfy"
+  ],
+  "dependencies": {
+    "alfy": "^0.6.0",
+    "colors-convert": "^1.4.1",
+    "hex-color-regex": "^1.1.0",
+    "rgb-regex": "^1.0.1",
+    "rgba-regex": "^1.0.0"
+  }
+}
