@@ -18,6 +18,10 @@
   "engines": {
     "node": ">=12"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "scripts": {
     "test": "ava",
     "lint": "run-s eslint:fix prettier:fix",
