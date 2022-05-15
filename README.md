@@ -12,7 +12,7 @@ $ npm i alfred-color-converter --global
 
 ## Usage
 
-In Alfred, type `color`, press <kbd>Enter</kbd> copy to clipboard.
+In Alfred, type `clr`, press <kbd>Enter</kbd> copy to clipboard.
 
 ## License
 

@@ -1,6 +1,6 @@
 {
   "name": "alfred-color-converter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An Alfred Workflows for color conversion",
   "repository": "https://github.com/toFrankie/alfred-color-converter.git",
   "homepage": "https://github.com/toFrankie/alfred-color-converter.git#readme",
