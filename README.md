@@ -1,12 +1,14 @@
 # alfred-color-convert
 
+An Alfred Workflows for color conversion — supports hexadecimal color and rgb(a) color conversion.
+
 ## Install
 
-```
-$ npm install --global alfred-color-convert
-```
+Requires [Node.js 12+](https://nodejs.org) and the [Alfred Powerpack](https://www.alfredapp.com/powerpack/).
 
-_Requires [Node.js](https://nodejs.org) 12+ and the Alfred [Powerpack](https://www.alfredapp.com/powerpack/)._
+```shell
+$ npm i alfred-color-convert --global
+```
 
 ## Usage
 

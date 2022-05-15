@@ -1,10 +1,19 @@
 {
   "name": "alfred-color-convert",
   "version": "0.0.1",
-  "description": "An Alfred workflows for color conversion",
+  "description": "An Alfred Workflows for color conversion",
   "repository": "https://github.com/toFrankie/alfred-color-convert.git",
+  "homepage": "https://github.com/toFrankie/alfred-color-convert.git#readme",
+  "bugs": {
+    "url": "https://github.com/owner/project/issues",
+    "email": "project@hostname.com"
+  },
   "type": "module",
-  "author": "Frankie <1426203851@qq.com>",
+  "author": {
+    "name": "Frankie",
+    "email": "1426203851@qq.com",
+    "url": "https://github.com/toFrankie/alfred-color-convert.git"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=12"
