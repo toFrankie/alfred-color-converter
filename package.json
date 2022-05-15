@@ -39,7 +39,7 @@
     "converter"
   ],
   "dependencies": {
-    "alfy": "^0.6.0",
+    "alfy": "^1.0.0",
     "colors-convert": "^1.4.1",
     "hex-color-regex": "^1.1.0",
     "rgb-regex": "^1.0.1",
