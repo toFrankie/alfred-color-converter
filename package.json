@@ -1,9 +1,9 @@
 {
-  "name": "alfred-color-convert",
+  "name": "alfred-color-converter",
   "version": "0.0.1",
   "description": "An Alfred Workflows for color conversion",
-  "repository": "https://github.com/toFrankie/alfred-color-convert.git",
-  "homepage": "https://github.com/toFrankie/alfred-color-convert.git#readme",
+  "repository": "https://github.com/toFrankie/alfred-color-converter.git",
+  "homepage": "https://github.com/toFrankie/alfred-color-converter.git#readme",
   "bugs": {
     "url": "https://github.com/owner/project/issues",
     "email": "project@hostname.com"
@@ -12,7 +12,7 @@
   "author": {
     "name": "Frankie",
     "email": "1426203851@qq.com",
-    "url": "https://github.com/toFrankie/alfred-color-convert.git"
+    "url": "https://github.com/toFrankie/alfred-color-converter.git"
   },
   "license": "MIT",
   "engines": {
@@ -30,7 +30,13 @@
   "keywords": [
     "alfred",
     "workflow",
-    "alfy"
+    "alfy",
+    "color",
+    "rgb",
+    "hex",
+    "rgba",
+    "convert",
+    "converter"
   ],
   "dependencies": {
     "alfy": "^0.6.0",
