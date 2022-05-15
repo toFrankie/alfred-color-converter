@@ -4,6 +4,8 @@
   <dict>
     <key>bundleid</key>
     <string>com.tofrankie.alfred_color_converter</string>
+    <key>category</key>
+    <string>Tools</string>
     <key>connections</key>
     <dict>
       <key>6A1A99DD-9A7E-4C57-8776-97553335C525</key>
