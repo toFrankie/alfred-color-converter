@@ -10,7 +10,7 @@ test('main', async t => {
   t.deepEqual(result, [
     {
       title: 'rgb(255, 255, 255)',
-      subtitle: `convert '#fff' to 'rgb(255, 255, 255)'`,
+      subtitle: 'Press enter to copy to clipboard.',
       arg: 'rgb(255, 255, 255)',
     },
   ])

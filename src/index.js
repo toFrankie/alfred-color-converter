@@ -77,7 +77,7 @@ try {
   alfy.output([
     {
       title: converted,
-      subtitle: `convert '${input}' to '${converted}'`,
+      subtitle: 'Press enter to copy to clipboard.',
       arg: converted,
     },
   ])
