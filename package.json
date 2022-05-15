@@ -1,7 +1,7 @@
 {
   "name": "alfred-color-converter",
   "version": "0.0.2",
-  "description": "An Alfred Workflows for color conversion",
+  "description": "An Alfred Workflows for color conversion.",
   "repository": "https://github.com/toFrankie/alfred-color-converter.git",
   "homepage": "https://github.com/toFrankie/alfred-color-converter.git#readme",
   "bugs": {
@@ -19,6 +19,9 @@
     "node": ">=12"
   },
   "scripts": {
+    "lint": "run-s eslint:fix prettier:fix",
+    "eslint:fix": "eslint --fix . --ext .js",
+    "prettier:fix": "prettier --write './**/*.{json,js}'",
     "postinstall": "alfy-init",
     "preuninstall": "alfy-cleanup"
   },
@@ -44,5 +47,10 @@
     "hex-color-regex": "^1.1.0",
     "rgb-regex": "^1.0.1",
     "rgba-regex": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.6.2"
   }
 }
