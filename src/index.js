@@ -2,8 +2,8 @@ import alfy from 'alfy'
 import hexColorRegex from 'hex-color-regex'
 import rgbRegex from 'rgb-regex'
 import rgbaRegex from 'rgba-regex'
+import convert from 'color-convert'
 import {
-  hexToRgbOrRgba,
   rgbStringToObject,
   rgbaStringToObject,
   isRgbString,
@@ -46,26 +46,21 @@ const colorConvert = (type, value) => {
   const { HEX, RGB, RGBA } = COLOR_TYPE
 
   switch (type) {
-    case HEX:
-      return rgbOrRgbaFormat(hexToRgbOrRgba(value))
+    case HEX: {
+      const rgbArr = convert.hex.rgb(value)
+      return `rgb(${rgbArr.join(', ')})`
+    }
     case RGB: {
       const rgbObject = rgbStringToObject(value)
       return rgbToHex(rgbObject).toLowerCase()
-      // TODO: toShort
     }
     case RGBA: {
       const rgbaObject = rgbaStringToObject(value)
       return rgbaToHex(rgbaObject).toLowerCase()
-      // TODO: toShort
     }
     default:
       return value
   }
-}
-
-const rgbOrRgbaFormat = colorObj => {
-  const { r, g, b, a } = colorObj
-  return a !== undefined ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`
 }
 
 try {
