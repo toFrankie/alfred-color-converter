@@ -1,14 +1,27 @@
+import path from 'path'
 import alfy from 'alfy'
 import convert from 'color-convert'
+import namedColor from './constants/color-name'
+import { dirname } from './utils/path-utils'
 import { COLOR_TYPE } from './constants/color'
 import { getHexColorString, getRgbColorString, getRgbaColorString } from './utils/color-utils'
 import { isRgbShortString, rgbShortStringFormat, rgbLongStringFormat } from './utils/rgb-utils'
 import { isRgbaShortString, rgbaShortStringFormat, rgbaLongStringFormat } from './utils/rgba-utils'
 
-const getColorsByInput = inputString => {
+const __dirname = dirname(import.meta)
+
+const parseColors = inputString => {
   let str = String(inputString).trim()
   const colorList = []
   let hasNext = false
+
+  // css named color, see: https://drafts.csswg.org/css-color/#named-colors
+  const namedColorRgb = namedColor[str]
+  if (namedColorRgb) {
+    colorList.push({ label: COLOR_TYPE.RGB, value: namedColorRgb, rawStr: str })
+    colorList.push({ label: COLOR_TYPE.HEX, value: convert.rgb.hex(namedColorRgb), rawStr: str })
+    return colorList
+  }
 
   do {
     hasNext = false
@@ -55,7 +68,7 @@ const getColorsByInput = inputString => {
   return colorList
 }
 
-const colorConvert = (label, value) => {
+const colorConvert = ({ label, value, rawStr }) => {
   const { HEX, RGB, RGBA } = COLOR_TYPE
   const result = { label, from: value, to: value }
 
@@ -66,7 +79,7 @@ const colorConvert = (label, value) => {
       if (value.length === 9) value = value.substring(0, 7)
 
       const converted = convert.hex.rgb(value)
-      result.from = value.toLowerCase()
+      result.from = rawStr || value.toLowerCase()
       result.to = `rgb(${converted.join(', ')})`
       break
     }
@@ -76,7 +89,7 @@ const colorConvert = (label, value) => {
       value.length = 3
 
       const converted = convert.rgb.hex(value)
-      result.from = `rgb(${value.join(', ')})`
+      result.from = rawStr || `rgb(${value.join(', ')})`
       result.to = `#${converted}`.toLowerCase()
       break
     }
@@ -87,13 +100,21 @@ const colorConvert = (label, value) => {
 
 try {
   const input = alfy.input
-  const colorList = getColorsByInput(input)
-  const alfredList = colorList.map(({ label, value }) => {
-    const { from, to } = colorConvert(label, value)
+  const colorList = parseColors(input)
+
+  const alfredList = colorList.map(colorInfo => {
+    const { label, from, to } = colorConvert(colorInfo)
+    const iconPath = path.resolve(
+      __dirname,
+      'asserts',
+      `${label === COLOR_TYPE.HEX ? 'HEX' : 'RGB'}.png`
+    )
+
     return {
       arg: to,
       title: to,
-      subtitle: `Press enter to copy to clipboard. ${from} 👉 ${to}`,
+      subtitle: `Press enter copy to clipboard. ${from} 👉 ${to}`,
+      icon: { path: iconPath },
     }
   })
 

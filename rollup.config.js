@@ -1,3 +1,4 @@
+import copy from 'rollup-plugin-copy'
 import { terser } from 'rollup-plugin-terser'
 
 export default {
@@ -6,6 +7,11 @@ export default {
     file: 'dist/bundle.js',
     format: 'esm',
   },
-  plugins: [terser()],
   external: ['alfy', 'color-convert'],
+  plugins: [
+    terser(),
+    copy({
+      targets: [{ src: 'src/asserts/**/*', dest: 'dist/asserts' }],
+    }),
+  ],
 }
