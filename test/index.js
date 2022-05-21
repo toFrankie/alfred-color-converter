@@ -5,7 +5,6 @@ test('main', async t => {
   const alfy = alfyTest()
 
   const result = await alfy('#fff')
-  console.log('-->', result)
 
   t.deepEqual(result, [
     {

@@ -23,29 +23,29 @@ const getColor = input => {
 
   // hex color
   const hexColor = hexColorRegex().exec(input)
-  if (hexColor) return { type: COLOR_TYPE.HEX, value: hexColor[0] } // match[1] without the hash
+  if (hexColor) return { label: COLOR_TYPE.HEX, value: hexColor[0] } // match[1] without the hash
 
   // rgb color
   const rgbColor = rgbRegex().exec(input)
-  if (rgbColor) return { type: COLOR_TYPE.RGB, value: rgbColor[0] }
+  if (rgbColor) return { label: COLOR_TYPE.RGB, value: rgbColor[0] }
 
   // rgba color
   const rgbaColor = rgbaRegex().exec(input)
-  if (rgbaColor) return { type: COLOR_TYPE.RGBA, value: rgbaColor[0] }
+  if (rgbaColor) return { label: COLOR_TYPE.RGBA, value: rgbaColor[0] }
 
   // short rgb color: 255, 0, 255
-  if (isRgbString(input)) return { type: COLOR_TYPE.RGB, value: input }
+  if (isRgbString(input)) return { label: COLOR_TYPE.RGB, value: input }
 
   // short rgba color: 255, 0, 255, 0.5
-  if (isRgbaString(input)) return { type: COLOR_TYPE.RGBA, value: input }
+  if (isRgbaString(input)) return { label: COLOR_TYPE.RGBA, value: input }
 
-  return { type: null, value: null }
+  return { label: null, value: null }
 }
 
-const colorConvert = (type, value) => {
+const colorConvert = (label, value) => {
   const { HEX, RGB, RGBA } = COLOR_TYPE
 
-  switch (type) {
+  switch (label) {
     case HEX: {
       const rgbArr = convert.hex.rgb(value)
       return `rgb(${rgbArr.join(', ')})`
@@ -65,8 +65,8 @@ const colorConvert = (type, value) => {
 
 try {
   const input = alfy.input
-  const { type: colorType, value: colorValue } = getColor(input)
-  const converted = colorConvert(colorType, colorValue)
+  const { label: colorLabel, value: colorValue } = getColor(input)
+  const converted = colorConvert(colorLabel, colorValue)
   if (!converted) throw new Error('Invalid color') // 目前仅支持 hex、rgb、rgba
 
   alfy.output([
