@@ -12,9 +12,9 @@ $ npm i -g alfred-color-converter@latest
 
 ## Usage
 
-In Alfred, type `clr`, press <kbd>Enter</kbd> copy to clipboard.
+In Alfred, type `cc`, press <kbd>Enter</kbd> copy to clipboard.
 
-<img width="1577" alt="image" src="https://user-images.githubusercontent.com/26947203/169641584-2f7662e0-f837-405f-9647-9c08ff4cda13.png">
+<img width="960" alt="image" src="https://user-images.githubusercontent.com/26947203/169651055-f0a206fa-34b4-4abc-83fd-86a1abacccb6.png">
 
 ## License
 

@@ -1,7 +1,6 @@
 import alfy from 'alfy'
 import convert from 'color-convert'
 import { COLOR_TYPE } from './constants/color'
-import { rgbStringToObject, rgbaStringToObject, rgbToHex, rgbaToHex } from 'colors-convert'
 import { getHexColorString, getRgbColorString, getRgbaColorString } from './utils/color-utils'
 import { isRgbShortString, rgbShortStringFormat, rgbLongStringFormat } from './utils/rgb-utils'
 import { isRgbaShortString, rgbaShortStringFormat, rgbaLongStringFormat } from './utils/rgba-utils'
@@ -58,36 +57,43 @@ const getColorsByInput = inputString => {
 
 const colorConvert = (label, value) => {
   const { HEX, RGB, RGBA } = COLOR_TYPE
+  const result = { label, from: value, to: value }
 
   switch (label) {
     case HEX: {
-      const rgbArr = convert.hex.rgb(value)
-      return `rgb(${rgbArr.join(', ')})`
+      // missing hex alpha
+      if (value.length === 5) value = value.substring(0, 4)
+      if (value.length === 9) value = value.substring(0, 7)
+
+      const converted = convert.hex.rgb(value)
+      result.from = value.toLowerCase()
+      result.to = `rgb(${converted.join(', ')})`
+      break
     }
-    case RGB: {
-      const rgbString = `rgb(${value[0]}, ${value[1]}, ${value[2]})`
-      const rgbObject = rgbStringToObject(rgbString)
-      return rgbToHex(rgbObject).toLowerCase()
-    }
+    case RGB:
     case RGBA: {
-      const rgbaString = `rgba(${value[0]}, ${value[1]}, ${value[2]}, ${value[3]})`
-      const rgbaObject = rgbaStringToObject(rgbaString)
-      return rgbaToHex(rgbaObject).toLowerCase()
+      // missing rgba alpha
+      value.length = 3
+
+      const converted = convert.rgb.hex(value)
+      result.from = `rgb(${value.join(', ')})`
+      result.to = `#${converted}`.toLowerCase()
+      break
     }
-    default:
-      return value
   }
+
+  return result
 }
 
 try {
   const input = alfy.input
   const colorList = getColorsByInput(input)
   const alfredList = colorList.map(({ label, value }) => {
-    const converted = colorConvert(label, value)
+    const { from, to } = colorConvert(label, value)
     return {
-      arg: converted,
-      title: converted,
-      subtitle: 'Press enter to copy to clipboard.',
+      arg: to,
+      title: to,
+      subtitle: `Press enter to copy to clipboard. ${from} 👉 ${to}`,
     }
   })
 
@@ -97,8 +103,8 @@ try {
 } catch (e) {
   alfy.output([
     {
-      title: 'Invalid color',
-      subtitle: e.message,
+      title: `Not a valid color`,
+      subtitle: 'please re-check your input.',
       arg: 'convert failed',
     },
   ])

@@ -50,7 +50,7 @@
     <key>createdby</key>
     <string>Frankie</string>
     <key>description</key>
-    <string>An Alfred workflows for color conversion</string>
+    <string>An Alfred Workflows for color conversion.</string>
     <key>disabled</key>
     <false/>
     <key>name</key>
@@ -73,7 +73,7 @@
           <key>escaping</key>
           <integer>127</integer>
           <key>keyword</key>
-          <string>clr</string>
+          <string>cc</string>
           <key>queuedelaycustom</key>
           <integer>3</integer>
           <key>queuedelayimmediatelyinitially</key>
@@ -91,9 +91,9 @@
           <key>scriptfile</key>
           <string>index.js</string>
           <key>subtext</key>
-          <string></string>
+          <string>e.g. #fff, rgb(255, 0, 0), etc.</string>
           <key>title</key>
-          <string>Color converting...</string>
+          <string>Enter color value</string>
           <key>type</key>
           <integer>5</integer>
           <key>withspace</key>
@@ -198,6 +198,6 @@
       </dict>
     </dict>
     <key>webaddress</key>
-    <string>https://github.com/toFrankie/alfred-color-converter.git</string>
+    <string>https://github.com/toFrankie/alfred-color-converter.git#readme</string>
   </dict>
 </plist>

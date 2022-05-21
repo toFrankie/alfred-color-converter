@@ -7,12 +7,5 @@ export default {
     format: 'esm',
   },
   plugins: [terser()],
-  external: [
-    'alfy',
-    'hex-color-regex',
-    'rgb-regex',
-    'rgba-regex',
-    'color-convert',
-    'colors-convert',
-  ],
+  external: ['alfy', 'color-convert'],
 }
