@@ -14,9 +14,7 @@ $ npm i -g alfred-color-converter@latest
 
 In Alfred, type `clr`, press <kbd>Enter</kbd> copy to clipboard.
 
-<img width="1116" alt="image" src="https://user-images.githubusercontent.com/26947203/168468492-9c0f13c0-2548-4c6d-b3fc-dc34bade8c58.png">
-
-<img width="1116" alt="image" src="https://user-images.githubusercontent.com/26947203/168468740-7599a5e7-fad5-4178-8465-ed2d9d1967f2.png">
+<img width="1577" alt="image" src="https://user-images.githubusercontent.com/26947203/169641584-2f7662e0-f837-405f-9647-9c08ff4cda13.png">
 
 ## License
 

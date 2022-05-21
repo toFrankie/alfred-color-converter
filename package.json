@@ -1,6 +1,6 @@
 {
   "name": "alfred-color-converter",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "An Alfred Workflows for color conversion.",
   "repository": "https://github.com/toFrankie/alfred-color-converter.git",
   "homepage": "https://github.com/toFrankie/alfred-color-converter.git#readme",
@@ -57,10 +57,7 @@
   "dependencies": {
     "alfy": "^1.0.0",
     "color-convert": "^2.0.1",
-    "colors-convert": "^1.4.1",
-    "hex-color-regex": "^1.1.0",
-    "rgb-regex": "^1.0.1",
-    "rgba-regex": "^1.0.0"
+    "colors-convert": "^1.4.1"
   },
   "devDependencies": {
     "alfy-test": "^0.4.2",

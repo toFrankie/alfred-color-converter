@@ -1,45 +1,59 @@
 import alfy from 'alfy'
-import hexColorRegex from 'hex-color-regex'
-import rgbRegex from 'rgb-regex'
-import rgbaRegex from 'rgba-regex'
 import convert from 'color-convert'
-import {
-  rgbStringToObject,
-  rgbaStringToObject,
-  isRgbString,
-  isRgbaString,
-  rgbToHex,
-  rgbaToHex,
-} from 'colors-convert'
+import { COLOR_TYPE } from './constants/color'
+import { rgbStringToObject, rgbaStringToObject, rgbToHex, rgbaToHex } from 'colors-convert'
+import { getHexColorString, getRgbColorString, getRgbaColorString } from './utils/color-utils'
+import { isRgbShortString, rgbShortStringFormat, rgbLongStringFormat } from './utils/rgb-utils'
+import { isRgbaShortString, rgbaShortStringFormat, rgbaLongStringFormat } from './utils/rgba-utils'
 
-const COLOR_TYPE = {
-  HEX: 'hex',
-  RGB: 'rgb',
-  RGBA: 'rgba',
-}
+const getColorsByInput = inputString => {
+  let str = String(inputString).trim()
+  const colorList = []
+  let hasNext = false
 
-const getColor = input => {
-  input = String(input).trim()
+  do {
+    hasNext = false
 
-  // hex color
-  const hexColor = hexColorRegex().exec(input)
-  if (hexColor) return { label: COLOR_TYPE.HEX, value: hexColor[0] } // match[1] without the hash
+    // hex color
+    const hexColor = getHexColorString(str)
+    if (hexColor) {
+      colorList.push({ label: COLOR_TYPE.HEX, value: hexColor })
+      hasNext = true
+    }
+    str = str.replace(hexColor, '')
 
-  // rgb color
-  const rgbColor = rgbRegex().exec(input)
-  if (rgbColor) return { label: COLOR_TYPE.RGB, value: rgbColor[0] }
+    // rgb color
+    const rgbColor = getRgbColorString(str)
+    if (rgbColor) {
+      let formatedColor = ''
+      if (isRgbShortString(rgbColor)) {
+        formatedColor = rgbShortStringFormat(rgbColor)
+      } else {
+        formatedColor = rgbLongStringFormat(rgbColor)
+      }
 
-  // rgba color
-  const rgbaColor = rgbaRegex().exec(input)
-  if (rgbaColor) return { label: COLOR_TYPE.RGBA, value: rgbaColor[0] }
+      colorList.push({ label: COLOR_TYPE.RGB, value: formatedColor })
+      hasNext = true
+    }
+    str = str.replace(rgbColor, '')
 
-  // short rgb color: 255, 0, 255
-  if (isRgbString(input)) return { label: COLOR_TYPE.RGB, value: input }
+    // rgba color
+    const rgbaColor = getRgbaColorString(str)
+    if (rgbaColor) {
+      let formatedColor = ''
+      if (isRgbaShortString(rgbaColor)) {
+        formatedColor = rgbaShortStringFormat(rgbaColor)
+      } else {
+        formatedColor = rgbaLongStringFormat(rgbaColor)
+      }
 
-  // short rgba color: 255, 0, 255, 0.5
-  if (isRgbaString(input)) return { label: COLOR_TYPE.RGBA, value: input }
+      colorList.push({ label: COLOR_TYPE.RGBA, value: formatedColor })
+      hasNext = true
+    }
+    str = str.replace(rgbaColor, '')
+  } while (hasNext && str)
 
-  return { label: null, value: null }
+  return colorList
 }
 
 const colorConvert = (label, value) => {
@@ -51,11 +65,13 @@ const colorConvert = (label, value) => {
       return `rgb(${rgbArr.join(', ')})`
     }
     case RGB: {
-      const rgbObject = rgbStringToObject(value)
+      const rgbString = `rgb(${value[0]}, ${value[1]}, ${value[2]})`
+      const rgbObject = rgbStringToObject(rgbString)
       return rgbToHex(rgbObject).toLowerCase()
     }
     case RGBA: {
-      const rgbaObject = rgbaStringToObject(value)
+      const rgbaString = `rgba(${value[0]}, ${value[1]}, ${value[2]}, ${value[3]})`
+      const rgbaObject = rgbaStringToObject(rgbaString)
       return rgbaToHex(rgbaObject).toLowerCase()
     }
     default:
@@ -65,17 +81,19 @@ const colorConvert = (label, value) => {
 
 try {
   const input = alfy.input
-  const { label: colorLabel, value: colorValue } = getColor(input)
-  const converted = colorConvert(colorLabel, colorValue)
-  if (!converted) throw new Error('Invalid color') // 目前仅支持 hex、rgb、rgba
-
-  alfy.output([
-    {
+  const colorList = getColorsByInput(input)
+  const alfredList = colorList.map(({ label, value }) => {
+    const converted = colorConvert(label, value)
+    return {
+      arg: converted,
       title: converted,
       subtitle: 'Press enter to copy to clipboard.',
-      arg: converted,
-    },
-  ])
+    }
+  })
+
+  if (alfredList.length === 0) throw new Error('Invalid color')
+
+  alfy.output(alfredList)
 } catch (e) {
   alfy.output([
     {
