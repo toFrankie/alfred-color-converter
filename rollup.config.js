@@ -7,7 +7,7 @@ export default {
     file: 'dist/bundle.js',
     format: 'esm',
   },
-  external: ['alfy', 'color-convert'],
+  external: ['alfy', 'color-convert', 'path', 'url'],
   plugins: [
     terser(),
     copy({
