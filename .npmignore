@@ -1,7 +1,0 @@
-.git
-.gitignore
-.npmignore
-node_modules
-package-lock.json
-yarn.lock
-*.log

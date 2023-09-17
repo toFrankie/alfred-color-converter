@@ -1,17 +1,24 @@
 # alfred-color-converter
 
-An Alfred Workflows for color conversion:
+💻 An Alfred Workflows for color conversion:
 
 > - Supports conversion between hex rgba colors and decimal colors.
 > - Supports [CSS Named Colors](https://drafts.csswg.org/css-color/#named-colors) conversion to hex rgba or decimal colors.
 
-## Install
-
-Requires [Node.js 12+](https://nodejs.org) and the [Alfred Powerpack](https://www.alfredapp.com/powerpack/).
+## Installation
 
 ```shell
-$ npm i -g alfred-color-converter@latest
+# Install globally
+$ npm i -g alfred-color-converter
+
+# Import to Alfred
+$ alfred-color-converter-import
 ```
+
+## Requirements
+
+- Requires node 12+ environment.
+- Requires zsh ([migrated to zsh](https://support.apple.com/en-us/HT208050)).
 
 ## Usage
 
@@ -22,4 +29,4 @@ In Alfred, type `cc`, press <kbd>Enter</kbd> copy to clipboard.
 
 ## License
 
-MIT © [Frankie](https://github.com/toFrankie/alfred-color-converter/blob/main/license)
+MIT © [Frankie](https://github.com/toFrankie/alfred-color-converter/blob/main/LICENSE)

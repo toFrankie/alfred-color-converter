@@ -1,17 +1,25 @@
-import copy from 'rollup-plugin-copy'
-import { terser } from 'rollup-plugin-terser'
+const {defineConfig} = require('rollup')
+const resolve = require('@rollup/plugin-node-resolve')
+const json = require('@rollup/plugin-json')
+const babel = require('@rollup/plugin-babel')
+const commonjs = require('@rollup/plugin-commonjs')
 
-export default {
+module.exports = defineConfig({
   input: 'src/index.js',
   output: {
     file: 'dist/bundle.js',
-    format: 'esm',
+    format: 'cjs',
+    exports: 'named',
+    sourcemap: false,
   },
-  external: ['alfy', 'color-convert', 'path', 'url'],
   plugins: [
-    terser(),
-    copy({
-      targets: [{ src: 'src/asserts/**/*', dest: 'dist/asserts' }],
+    json(),
+    resolve(),
+    commonjs(),
+    babel({
+      exclude: 'node_modules/**',
+      babelHelpers: 'bundled',
+      presets: [['@babel/preset-env', {targets: {node: '12'}}]],
     }),
   ],
-}
+})

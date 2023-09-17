@@ -48,9 +48,9 @@
       </array>
     </dict>
     <key>createdby</key>
-    <string>Frankie</string>
+    <string>$createdby</string>
     <key>description</key>
-    <string>An Alfred Workflows for color conversion.</string>
+    <string>$description</string>
     <key>disabled</key>
     <false/>
     <key>name</key>
@@ -85,7 +85,8 @@
           <key>runningsubtext</key>
           <string>Loading...</string>
           <key>script</key>
-          <string>./node_modules/.bin/run-node ./dist/bundle.js "$1"</string>
+          <string>source "$HOME/.zshrc"
+$(which node) ./bundle.js "$1"</string>
           <key>scriptargtype</key>
           <integer>1</integer>
           <key>scriptfile</key>
@@ -198,6 +199,10 @@
       </dict>
     </dict>
     <key>webaddress</key>
-    <string>https://github.com/toFrankie/alfred-color-converter.git#readme</string>
+    <string>$webaddress</string>
+    <key>version</key>
+    <string>$version</string>
+    <key>readme</key>
+    <string><![CDATA[$readme]]></string>
   </dict>
 </plist>

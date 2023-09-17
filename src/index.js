@@ -1,14 +1,10 @@
-import path from 'path'
-import alfy from 'alfy'
-import convert from 'color-convert'
-import namedColor from './constants/color-name'
-import { dirname } from './utils/path-utils'
-import { COLOR_TYPE } from './constants/color'
-import { getHexColorString, getRgbColorString, getRgbaColorString } from './utils/color-utils'
-import { isRgbShortString, rgbShortStringFormat, rgbLongStringFormat } from './utils/rgb-utils'
-import { isRgbaShortString, rgbaShortStringFormat, rgbaLongStringFormat } from './utils/rgba-utils'
+const convert = require('color-convert')
 
-const __dirname = dirname(import.meta)
+const namedColor = require('./constants/color-name')
+const {COLOR_TYPE} = require('./constants/color')
+const {getHexColorString, getRgbColorString, getRgbaColorString} = require('./utils/color')
+const {isRgbShortString, rgbShortStringFormat, rgbLongStringFormat} = require('./utils/rgb')
+const {isRgbaShortString, rgbaShortStringFormat, rgbaLongStringFormat} = require('./utils/rgba')
 
 const parseColors = inputString => {
   let str = String(inputString).trim()
@@ -18,8 +14,8 @@ const parseColors = inputString => {
   // css named color, see: https://drafts.csswg.org/css-color/#named-colors
   const namedColorRgb = namedColor[str]
   if (namedColorRgb) {
-    colorList.push({ label: COLOR_TYPE.RGB, value: namedColorRgb, rawStr: str })
-    colorList.push({ label: COLOR_TYPE.HEX, value: convert.rgb.hex(namedColorRgb), rawStr: str })
+    colorList.push({type: COLOR_TYPE.RGB, value: namedColorRgb, rawStr: str})
+    colorList.push({type: COLOR_TYPE.HEX, value: convert.rgb.hex(namedColorRgb), rawStr: str})
     return colorList
   }
 
@@ -29,7 +25,7 @@ const parseColors = inputString => {
     // hex color
     const hexColor = getHexColorString(str)
     if (hexColor) {
-      colorList.push({ label: COLOR_TYPE.HEX, value: hexColor })
+      colorList.push({type: COLOR_TYPE.HEX, value: hexColor})
       hasNext = true
     }
     str = str.replace(hexColor, '')
@@ -44,7 +40,7 @@ const parseColors = inputString => {
         formatedColor = rgbLongStringFormat(rgbColor)
       }
 
-      colorList.push({ label: COLOR_TYPE.RGB, value: formatedColor })
+      colorList.push({type: COLOR_TYPE.RGB, value: formatedColor})
       hasNext = true
     }
     str = str.replace(rgbColor, '')
@@ -59,7 +55,7 @@ const parseColors = inputString => {
         formatedColor = rgbaLongStringFormat(rgbaColor)
       }
 
-      colorList.push({ label: COLOR_TYPE.RGBA, value: formatedColor })
+      colorList.push({type: COLOR_TYPE.RGBA, value: formatedColor})
       hasNext = true
     }
     str = str.replace(rgbaColor, '')
@@ -68,65 +64,63 @@ const parseColors = inputString => {
   return colorList
 }
 
-const colorConvert = ({ label, value, rawStr }) => {
-  const { HEX, RGB, RGBA } = COLOR_TYPE
-  const result = { label, from: value, to: value }
+const colorConvert = ({type, value, rawStr}) => {
+  const {HEX, RGB, RGBA} = COLOR_TYPE
+  const result = {type, from: value, to: value}
 
-  switch (label) {
+  let newValue = value
+  switch (type) {
     case HEX: {
       // missing hex alpha
-      if (value.length === 5) value = value.substring(0, 4)
-      if (value.length === 9) value = value.substring(0, 7)
+      if (newValue.length === 5) newValue = newValue.substring(0, 4)
+      if (newValue.length === 9) newValue = newValue.substring(0, 7)
 
-      const converted = convert.hex.rgb(value)
-      result.from = rawStr || value.toLowerCase()
+      const converted = convert.hex.rgb(newValue)
+      result.from = rawStr || newValue.toLowerCase()
       result.to = `rgb(${converted.join(', ')})`
       break
     }
     case RGB:
     case RGBA: {
       // missing rgba alpha
-      value.length = 3
+      newValue.length = 3
 
-      const converted = convert.rgb.hex(value)
-      result.from = rawStr || `rgb(${value.join(', ')})`
+      const converted = convert.rgb.hex(newValue)
+      result.from = rawStr || `rgb(${newValue.join(', ')})`
       result.to = `#${converted}`.toLowerCase()
       break
     }
+    default:
+      break
   }
 
   return result
 }
 
 try {
-  const input = alfy.input
+  const [_exec, _script, input = ''] = process.argv.map(arg => arg.trim())
   const colorList = parseColors(input)
 
   const alfredList = colorList.map(colorInfo => {
-    const { label, from, to } = colorConvert(colorInfo)
-    const iconPath = path.resolve(
-      __dirname,
-      'asserts',
-      `${label === COLOR_TYPE.HEX ? 'HEX' : 'RGB'}.png`
-    )
+    const {type, from, to} = colorConvert(colorInfo)
+    const iconPath = `./${type === COLOR_TYPE.HEX ? 'hex' : 'rgb'}.png`
 
     return {
       arg: to,
       title: to,
       subtitle: `Press enter copy to clipboard. ${from} 👉 ${to}`,
-      icon: { path: iconPath },
+      icon: {path: iconPath},
     }
   })
 
   if (alfredList.length === 0) throw new Error('Invalid color')
 
-  alfy.output(alfredList)
+  console.log(JSON.stringify({items: alfredList}))
 } catch (e) {
-  alfy.output([
-    {
-      title: `Not a valid color`,
-      subtitle: 'please re-check your input.',
-      arg: 'convert failed',
-    },
-  ])
+  const invalidItem = {
+    title: `Not a valid color`,
+    subtitle: 'please re-check your input.',
+    arg: 'convert failed',
+  }
+  console.log(JSON.stringify({items: [invalidItem]}))
 }
