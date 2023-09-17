@@ -3,6 +3,7 @@ node_modules/
 
 .vscode
 .DS_Store
+.eslintcache
 
 alfred-color-converter.alfredworkflow
 prefs.plist
